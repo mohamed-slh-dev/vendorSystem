@@ -1,0 +1,55 @@
+.top-report .footer .progess .progess-bar
+{
+    background: linear-gradient(to right, #0bc01f 0%, #87eeb4 100%);
+}
+
+.top-report .head .view
+{
+    color: #393f65;
+}
+
+.modal.show .modal-dialog
+{
+    margin-top: 10%;
+}
+
+.text-bold
+{
+    font-weight: bolder;
+}
+
+.form-control{
+    border: 1px solid #7d7d7d;
+}
+
+hr{
+    border-top: 1px solid rgba(0, 0, 0, 0.66);
+}
+
+.yelow{
+    background-color : #fdfd62; 
+    color: black;
+}
+
+.bg-success {
+    background-color: #31ac34eb !important;
+  }
+
+  .btn{
+      font-weight: bold;
+  }
+
+  .modal{
+
+     z-index: 9999;
+     
+  }
+
+
+@media screen and (max-width: 575px) {
+    .modal{
+        top: 100px;
+        overflow:scroll; 
+        height: 85%
+    }
+  }
