@@ -185,6 +185,7 @@ class ShipmentController extends Controller
 
     public function addShipment(Request $request)
     {
+        $dub_items = '';
         $check_shipments = Shipment::where('number', $request->number)->first();
 
         if (!empty($check_shipments)) {
@@ -259,12 +260,14 @@ class ShipmentController extends Controller
 
             $item->save();
 
-         }
+         }else{
+            $dub_items = '( لا يمكن تكرار البيان لنفس الإرسالية )';
+        }
 
 
         }
 
-        return redirect()->back()->with('success','تم اضافة إرسالية بنجاح');
+        return redirect()->back()->with('success',' تم اضافة إرسالية بنجاح '  . $dub_items );
 
     }
 
@@ -272,6 +275,7 @@ class ShipmentController extends Controller
     public function addProductShipment (Request $request){
 
 
+        $dub_items = '';
         $get_sa = Currency::where('name', 'sar')->first();
 
         $sa = $get_sa->price;
@@ -329,13 +333,15 @@ class ShipmentController extends Controller
 
             $item->save();
 
+         }else{
+             $dub_items = '( لا يمكن تكرار البيان لنفس الإرسالية )';
          }
 
 
         }
 
 
-        return redirect()->back()->with('success','تم اضافة بيان جديد للإرسالية بنجاح');
+        return redirect()->back()->with('success',' تم اضافة بيان جديد للإرسالية بنجاح ' . $dub_items);
 
 
     }
