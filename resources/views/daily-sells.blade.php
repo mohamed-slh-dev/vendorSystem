@@ -319,6 +319,7 @@
                     <input type="hidden" name="type" value="exist" id="">
                     
                     <input type="hidden" name="id" value="{{$daily->id}}" id="">
+                    <input type="hidden" name="client" value="{{$daily->client}}" id="">
                    
 
                     <div class="col-sm-4 mb-20">
