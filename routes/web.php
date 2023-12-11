@@ -89,7 +89,7 @@ Route::post('/add-transaction', [TransactionController::class, 'addTransaction']
 Route::post('/update-transaction', [TransactionController::class, 'updateTransaction'])->name('updateTransaction');
 
 
-//
+//daily sells
 Route::get('/daily-sells', [DailySellController::class, 'dailySells'])->name('dailySells');
 Route::post('/add-daily-sell', [DailySellController::class, 'addDailySell'])->name('addDailySell');
 Route::post('/edit-daily-sell', [DailySellController::class, 'editDailySell'])->name('editDailySell');
@@ -97,3 +97,6 @@ Route::get('/delete-daily-sell/{id}', [DailySellController::class, 'deleteDailyS
 
 Route::post('/search-daily-value', [DailySellController::class, 'searchDailyValue'])->name('searchDailyValue');
 Route::get('/search-daily/{date_from}/{date_to}', [DailySellController::class, 'searchDaily'])->name('searchDaily');
+
+Route::get('/daily-shorts', [DailySellController::class, 'dailyShorts'])->name('dailyShorts');
+Route::post('/add-daily-short', [DailySellController::class, 'addDailyShort'])->name('addDailyShort');

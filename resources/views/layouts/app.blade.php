@@ -145,6 +145,8 @@
 
                         <li><a href="{{route('dailySells')}}"><i class="fa fa-sticky-note"></i> <span> المبيعات اليومية</span></a></li>
 
+                         <li><a href="{{route('dailyShorts')}}"><i class="fa fa-ban"></i> <span> نواقص المبيعات اليومية</span></a></li>
+
                          <li><a href="{{route('expReport')}}"><i class="fa fa-file-pdf-o"></i> <span>تقارير المنصرفات </span></a></li>
 
 

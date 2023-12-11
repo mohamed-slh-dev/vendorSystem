@@ -9,6 +9,7 @@ use App\Models\DailySellItem;
 use App\Models\Shipment;
 use App\Models\ShipmentItem;
 use App\Models\ShipmentItemSell;
+use App\Models\DailyShort;
 
 use Illuminate\Http\Request;
 
@@ -24,17 +25,17 @@ class DailySellController extends Controller
 
         $shipments = Shipment::all();
 
-        foreach ($daily_sells as $value) {
+        // foreach ($daily_sells as $value) {
             
-            if (count($value->dailySellItmes) == 0 ) {
+        //     if (count($value->dailySellItmes) == 0 ) {
   
-                $daily = DailySell::find($value->id);
+        //         $daily = DailySell::find($value->id);
                 
-                $daily->delete();
+        //         $daily->delete();
 
-            }
+        //     }
            
-        }
+        // }
 
         return view('daily-sells',compact('daily_sells', 'products','shipments'));
 
@@ -67,12 +68,27 @@ class DailySellController extends Controller
 
     }
 
+    public function dailyShorts (){
+
+        $shorts = DailyShort::where('remaining_quantity', '>' , 0)->get();
+
+        $shipments = Shipment::all();
+
+        $items = ShipmentItem::all();
+
+        return view('daily-shorts', compact('shorts', 'shipments', 'items'));
+       
+    }
 
     public function addDailySell (Request $request){
 
         $flag = false;
-        $err_msg = "";
+        $short = false;
 
+        $err_msg = "";
+        $short_products = [];
+
+        $shipments = Shipment::all();
 
         if ($request->type == 'new') {
            
@@ -88,12 +104,16 @@ class DailySellController extends Controller
             $daily_sell->save();
 
             $selling_date = $request->date;
+            $client = $request->client;
+            $bill_number = $request->bill_number;
 
 
         } else {
             
             $daily_sell = DailySell::find($request->id);
             $selling_date = $daily_sell->date;
+            $client = $daily_sell->client;
+            $bill_number = $daily_sell->bill_number;
 
         }
         
@@ -113,15 +133,59 @@ class DailySellController extends Controller
             if (empty($item)) {
                 
                 $flag = true;
+                $short = true;
+
+                $check_short = DailyShort::where('daily_sell_id', $daily_sell->id)
+                ->where('product_id', $request->b_name[$i])
+                ->first();
+                
+                if (empty($check_short)) {
+                    
+                    $daily_short = new DailyShort();
+
+                    $daily_short->daily_sell_id = $daily_sell->id;
+    
+                    $daily_short->product_id = $request->b_name[$i];
+                    $daily_short->quantity = $request->selling_quantity[$i];
+                    $daily_short->remaining_quantity = $request->selling_quantity[$i];
+                    $daily_short->damaged = $request->damaged[$i];
+                    $daily_short->price = $request->price[$i];
+    
+                    $daily_short->save();
+
+                }
+               
 
                 $err_msg .= 'عذرا البيان ( ' . $product->name  . ' ) لا يوجد في الشحنة رقم  ( ' . $ship->number  . ' )  | ' ;
 
             }//end of empty($item)
              else {
 
+               
                 if ($request->selling_quantity[$i] + $request->damaged[$i] >  $item->remaining_quantity ) {
                     
                     $flag = true;
+                    $short = true;
+
+                    $check_short = DailyShort::where('daily_sell_id', $daily_sell->id)
+                    ->where('product_id', $request->b_name[$i])
+                    ->first();
+                    
+                    if (empty($check_short)) {
+
+                    $daily_short = new DailyShort();
+
+                    $daily_short->daily_sell_id = $daily_sell->id;
+    
+                    $daily_short->product_id = $request->b_name[$i];
+                    $daily_short->quantity = $request->selling_quantity[$i];
+                    $daily_short->remaining_quantity = $request->selling_quantity[$i];
+                    $daily_short->damaged = $request->damaged[$i];
+                    $daily_short->price = $request->price[$i];
+
+                    $daily_short->save();
+
+                    }
 
                     $err_msg .= 'عذرا الكمية المباعة في الشحنة  ( ' . $ship->number  .' ) من  ( ' . $item->product->name  .' ) اكثر من المتبقية في الشحنة لديك ( ' . $item->remaining_quantity .' )  |  ';
 
@@ -136,7 +200,6 @@ class DailySellController extends Controller
 
                     } else {
                         
-
 
                         $daily_sell_item = new DailySellItem ();
     
@@ -155,8 +218,8 @@ class DailySellController extends Controller
                         $selling->user_created = session()->get('name');
                 
                         $selling->shipment_item_id =$item->id;
-                        $selling->client = $request->client;
-                        $selling->bill_number = $request->bill_number;
+                        $selling->client = $client;
+                        $selling->bill_number = $bill_number;
                         $selling->date = $selling_date;
                 
                         $selling->quantity = $request->selling_quantity[$i];
@@ -189,7 +252,16 @@ class DailySellController extends Controller
 
         if ($flag == true) {
            
-            return redirect()->back()->with('warning', $err_msg );
+            if ($short == true) {
+               
+                return redirect()->route('dailyShorts')->with('warning', $err_msg );
+
+            } else {
+                
+                return redirect()->back()->with('warning', $err_msg );
+
+            }
+            
 
         } else {
             
@@ -198,6 +270,129 @@ class DailySellController extends Controller
         }
         
     }
+
+
+
+    public function addDailyShort (Request $request){
+
+        $flag = false;
+
+        $err_msg = "";
+
+        $shipments = Shipment::all();
+
+
+        for ($i=0; $i < count($request->b_name) ; $i++) { 
+
+            $daily_sell = DailySell::find($request->id[$i]);
+            $selling_date = $daily_sell->date;
+            $client = $daily_sell->client;
+            $bill_number = $daily_sell->bill_number;
+
+
+            $ship = Shipment::find($request->ship_id[$i]);
+
+            $item = ShipmentItem::where('shipment_id', $ship->id)
+            ->where('product_id', $request->b_name[$i])
+            ->first();
+
+            $product = Product::find($request->b_name[$i]);
+
+            if (empty($item)) {
+                
+                $flag = true;
+
+                $err_msg .= 'عذرا البيان ( ' . $product->name  . ' ) لا يوجد في الشحنة رقم  ( ' . $ship->number  . ' )  | ' ;
+
+            }//end of empty($item)
+             else {
+
+               
+                if ($request->selling_quantity[$i] + $request->damaged[$i] >  $item->remaining_quantity ) {
+                    
+                    $flag = true;
+
+                    $err_msg .= 'عذرا الكمية المباعة في الشحنة  ( ' . $ship->number  .' ) من  ( ' . $item->product->name  .' ) اكثر من المتبقية في الشحنة لديك ( ' . $item->remaining_quantity .' )  |  ';
+
+                }//end of check remaining_quantity
+                 else {
+                   
+                    if ($item->shipment->date > $selling_date) {
+                        
+                        $flag = true;
+
+                        $err_msg .= ' عذرا تاريخ إضافة عملية المبيعات' . $selling_date  .' قبل تاريخ إنشاء الإرسالية ' . $item->shipment->date  .' ';
+
+                    } else {
+                        
+
+                        $daily_short = DailyShort::find($request->short_id[$i]);
+
+                        $daily_short->remaining_quantity -= $request->selling_quantity[$i] + $request->damaged[$i];
+                        $daily_short->save();
+
+
+                        $daily_sell_item = new DailySellItem ();
+    
+                        $daily_sell_item->daily_sell_id =  $daily_sell->id;
+                        $daily_sell_item->shipment_id =  $ship->id;
+                        $daily_sell_item->product_id =  $request->b_name[$i];
+                        $daily_sell_item->quantity = $request->selling_quantity[$i];
+                        $daily_sell_item->damaged =  $request->damaged[$i];
+                        $daily_sell_item->price =  $request->price[$i];
+    
+                        $daily_sell_item->save();
+
+
+                        $selling = new ShipmentItemSell;
+
+                        $selling->user_created = session()->get('name');
+                
+                        $selling->shipment_item_id =$item->id;
+                        $selling->client = $client;
+                        $selling->bill_number = $bill_number;
+                        $selling->date = $selling_date;
+                
+                        $selling->quantity = $request->selling_quantity[$i];
+                
+                        $selling->damaged = $request->damaged[$i];
+                        $selling->price = $request->price[$i];
+                
+                        $selling->daily_sell_item_id = $daily_sell_item->id;
+
+                        $selling->selling = $request->price[$i] * $request->selling_quantity[$i];
+                
+                
+                        $selling->remaining_quantity = $item->remaining_quantity - ($request->selling_quantity[$i] + $request->damaged[$i]) ;
+    
+                        $selling->save();
+    
+                        $item->remaining_quantity -= $request->selling_quantity[$i] + $request->damaged[$i];
+                        $item->save();
+    
+                       
+
+
+                    }//end of else date check
+  
+                }
+                
+            }//end of else remaining check
+            
+        }//end of for loop
+
+        if ($flag == true) {    
+                
+                return redirect()->back()->with('warning', $err_msg ); 
+
+        } else {
+            
+            return redirect()->back()->with('success','تم اضافة عملية بيع بنجاح');
+
+        }
+        
+    }
+
 
 
     public function editDailySell(Request $request){

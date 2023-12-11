@@ -13,4 +13,9 @@ class DailySell extends Model
     {
         return $this->hasMany('App\Models\DailySellItem');
     }
+
+    public function dailyShorts()
+    {
+        return $this->hasMany('App\Models\DailyShort');
+    }
 }
