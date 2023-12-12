@@ -105,8 +105,11 @@
                                 <thead class="thead-dark">
                                     <tr>
                                         <th></th>
-                                        <th>الشحن و التخليص</th>
-                                        <th>منصرفات اخرى خاصة بالشحن</th>
+                                        <th>الشحن</th>
+                                        <th>التخليص</th>
+                                        <th>منصرفات الأردن</th>
+
+                                        <th>منصرفات اخرى </th>
 
                                         <th style="width: 200px"> التفاصيل</th>
         
@@ -129,13 +132,23 @@
                                     @php
                                         $sum += $exp->customs_price;
                                         $sum += $exp->others_price;
+                                        $sum += $exp->delivery_price;
+                                        $sum += $exp->jordan_price;
+
 
                                     @endphp
                                   
                                     <tr >
                                         <td style="width: 1%"></td>
+
+                                        <td style="width: 5%"> {{ number_format($exp->delivery_price , 2, '.', ',')}} </td>
+
                                         <td style="width: 5%"> {{ number_format($exp->customs_price , 2, '.', ',')}} </td>
+
+                                        <td style="width: 5%"> {{ number_format($exp->jordan_price , 2, '.', ',')}} </td>
+
                                         <td style="width: 5%"> {{ number_format($exp->others_price , 2, '.', ',')}}</td>
+                                        
                                         <td style="width: 200px">{{$exp->desc}}</td>
                                         <td style="width: 10%">{{$exp->created_at}}</td>
                                        

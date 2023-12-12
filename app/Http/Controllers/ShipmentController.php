@@ -582,12 +582,21 @@ class ShipmentController extends Controller
 
         $customs_price = preg_replace('/[,]/', '', $request->customs); 
         $customs_price = (int)$customs_price;
-        
+
         $others_price = preg_replace('/[,]/', '', $request->others); 
         $others_price = (int)$others_price;
 
+        $delivery_price = preg_replace('/[,]/', '', $request->delivery); 
+        $delivery_price = (int)$delivery_price;
+        
+        $jordan_price = preg_replace('/[,]/', '', $request->jordan); 
+        $jordan_price = (int)$jordan_price;
+
         $expenses->customs_price = $customs_price;
         $expenses->others_price = $others_price;
+
+        $expenses->delivery_price = $delivery_price;
+        $expenses->jordan_price = $jordan_price;
 
         $expenses->desc = $request->desc;
 

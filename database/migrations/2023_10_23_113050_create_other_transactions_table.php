@@ -22,6 +22,9 @@ class CreateOtherTransactionsTable extends Migration
             $table->double('customs_price', 15 , 2)->nullable();
             $table->double('others_price', 15 , 2)->nullable();
 
+            $table->double('delivery_price', 15 , 2)->nullable();
+            $table->double('jordan_price', 15 , 2)->nullable();
+
             $table->string('desc')->nullable();
 
             $table->string('user_created')->nullable();

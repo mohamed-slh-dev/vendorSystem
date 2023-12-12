@@ -303,7 +303,7 @@
 
                                 <td style="font-weight: bold">إجمالي الفاتورة</td>
                                 <td></td>
-                                <td></td>
+                               
 
                                 <td></td>
                                 <td></td>
@@ -311,6 +311,9 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
+                                <td></td>
+
 
                                 <td style="font-weight: bold">
                                     @php
@@ -341,6 +344,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td style="font-weight: bold">
                                     
                                     @php
@@ -363,6 +367,8 @@
                             @php
                                  $sum_exp = 0;
                                  $sum_others = 0;
+                                 $sum_delivery = 0;
+                                 $sum_jordan = 0;
 
                             @endphp
 
@@ -372,14 +378,17 @@
                                     $sum_exp += $exp->customs_price;
                                     $sum_others += $exp->others_price;
 
+                                    $sum_delivery += $exp->delivery_price;
+                                    $sum_jordan += $exp->jordan_price;
+
                                 @endphp
 
-                          {{-- customes --}}
+                          {{-- delivery --}}
                             <tr>
                                 <td></td>
                                 <td></td>
 
-                                <td style="font-weight: bold">الشحن و التخليص</td>
+                                <td style="font-weight: bold">الشحن</td>
 
                                 <td></td>
                                 <td></td>
@@ -390,20 +399,70 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                               
+                                <td></td>
+                                <td></td>
+
+                                <td style="font-weight: bold">{{ number_format($exp->delivery_price , 3, '.', ',')}}</td>
+
+                            </tr>
+
+
+                              {{-- customes --}}
+                              <tr>
+                                <td></td>
+                                <td></td>
+
+                                <td style="font-weight: bold">التخليص</td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
 
                                 <td style="font-weight: bold">{{ number_format($exp->customs_price , 3, '.', ',')}}</td>
 
                             </tr>
 
-                        {{-- other expenses --}}
+                        {{-- jordan expenses --}}
                             <tr>
                                 <td></td>
                                 <td></td>
 
-                                <td style="font-weight: bold">منصرفات اخرى خاصة بالشحن</td>
+                                <td style="font-weight: bold">منصرفات الأردن  </td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="font-weight: bold">{{ number_format($exp->jordan_price , 3, '.', ',')}}</td>
+
+                            </tr>
+
+
+                            {{-- other expenses --}}
+                            <tr>
+                                <td></td>
+                                <td></td>
+
+                                <td style="font-weight: bold">منصرفات اخرى  </td>
 
                                 <td>( {{$exp->desc}} )</td>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -436,10 +495,11 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-
+                                <td></td>
+                                <td></td>
                                 <td style="font-weight: bold">
                                     @php
-                                        echo number_format($sum_value_sar + $sum_exp + $sum_others , 3, '.', ',');
+                                        echo number_format($sum_value_sar + $sum_exp + $sum_others + $sum_delivery + $sum_jordan , 3, '.', ',');
                                     @endphp
                                    
                                 </td>
@@ -453,11 +513,12 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                               
 
                                 <td style="font-weight: bold">
                                     @php
                                         
-                                        echo number_format( $sum_sell  - ($sum_value_sar + $sum_exp + $sum_others) , 3, '.', ',');
+                                        echo number_format( $sum_sell  - ($sum_value_sar + $sum_exp + $sum_others + $sum_delivery + $sum_jordan) , 3, '.', ',');
 
                                     @endphp
                                   
@@ -1062,9 +1123,21 @@
                 <div class="row">
                    
                     <div class="col-sm-6 mb-20">
-                        <label for="customs">التخلص و الشحن</label>
+                        <label for="customs">التخليص</label>
                         <input type="text"  id="customs" name="customs"  min="0" value="0" step=".001" class="form-control fraction-commas" >
                     </div>
+
+                    <div class="col-sm-6 mb-20">
+                        <label for="customs"> الشحن</label>
+                        <input type="text"  id="customs" name="delivery"  min="0" value="0" step=".001" class="form-control fraction-commas" >
+                    </div>
+
+                   
+                    <div class="col-sm-6 mb-20">
+                        <label for="others"> منصرفات الأردن</label>
+                        <input type="text" id="others" name="jordan"  min="0" value="0" step=".001" class="form-control fraction-commas" >
+                    </div>
+                    
 
                     <div class="col-sm-6 mb-20">
                         <label for="others"> منصرفات اخرى</label>
