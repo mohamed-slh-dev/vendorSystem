@@ -107,6 +107,16 @@
     </div>
 
 
+    @if($shorts instanceof \Illuminate\Pagination\LengthAwarePaginator )
+
+    <div class="m-4">
+
+        {{$shorts->links()}}
+     
+    </div>
+    
+    @endif
+
     @if ($shorts->count() > 0 )
         
         <div class="modal-footer">

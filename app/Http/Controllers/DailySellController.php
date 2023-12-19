@@ -19,23 +19,32 @@ class DailySellController extends Controller
 
     public function dailySells(){
        
-        $daily_sells = DailySell::orderBy('date','ASC')->Paginate(15);
+        $daily_sells = DailySell::all();
 
         $products = Product::where('is_active', 0)->get();
 
         $shipments = Shipment::all();
 
-        // foreach ($daily_sells as $value) {
+        foreach ($daily_sells as $value) {
             
-        //     if (count($value->dailySellItmes) == 0 ) {
-  
-        //         $daily = DailySell::find($value->id);
-                
-        //         $daily->delete();
+            if (count($value->dailySellItmes) == 0 ) {
 
-        //     }
+                $check_shorts = DailyShort::where('daily_sell_id', $value->id)->first();
+
+                if (empty($check_shorts)) {
+
+                    $daily = DailySell::find($value->id);
+                
+                    $daily->delete();
+                }
+               
+
+            }
            
-        // }
+        }
+
+        $daily_sells = DailySell::orderBy('date','ASC')->Paginate(15);
+
 
         return view('daily-sells',compact('daily_sells', 'products','shipments'));
 
@@ -70,7 +79,19 @@ class DailySellController extends Controller
 
     public function dailyShorts (){
 
-        $shorts = DailyShort::where('remaining_quantity', '>' , 0)->get();
+
+        $shorts = DailyShort::all();
+
+
+        foreach ($shorts as $value) {
+
+            if ($value->remaining_quantity == 0) {
+                $value->delete();
+            }
+        }
+
+
+        $shorts = DailyShort::orderBy('daily_sell_id','DESC')->Paginate(10);
 
         $shipments = Shipment::all();
 
