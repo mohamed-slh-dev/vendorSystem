@@ -68,7 +68,7 @@
 
         <div class="col-sm-4 mb-20">
             <label for="selling_quantity"> الكمية المباعة</label>
-            <input type="number" required id="selling_quantity[]"  value="0" min="1" name="selling_quantity[]" class="form-control" >
+            <input type="number" required id="selling_quantity[]" max="{{$short->remaining_quantity}}"  value="0" min="1" name="selling_quantity[]" class="form-control" >
         </div>
 
          <div class="col-sm-4 mb-20">
