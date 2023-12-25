@@ -234,7 +234,7 @@ class DailySellController extends Controller
                         $daily_sell_item->save();
 
 
-                        $selling = new ShipmentItemSell;
+                        $selling = new ShipmentItemSell ();
 
                         $selling->user_created = session()->get('name');
                 
