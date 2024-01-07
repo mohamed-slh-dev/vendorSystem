@@ -1124,24 +1124,24 @@
                    
                     <div class="col-sm-6 mb-20">
                         <label for="customs">التخليص</label>
-                        <input type="text"  id="customs" name="customs"  min="0" value="0" step=".001" class="form-control fraction-commas" >
+                        <input type="text"  id="customs" name="customs"  min="0" value="0" step=".001" class="form-control " >
                     </div>
 
                     <div class="col-sm-6 mb-20">
                         <label for="customs"> الشحن</label>
-                        <input type="text"  id="customs" name="delivery"  min="0" value="0" step=".001" class="form-control fraction-commas" >
+                        <input type="text"  id="customs" name="delivery"  min="0" value="0" step=".001" class="form-control " >
                     </div>
 
                    
                     <div class="col-sm-6 mb-20">
                         <label for="others"> منصرفات الأردن</label>
-                        <input type="text" id="others" name="jordan"  min="0" value="0" step=".001" class="form-control fraction-commas" >
+                        <input type="text" id="others" name="jordan"  min="0" value="0" step=".001" class="form-control " >
                     </div>
                     
 
                     <div class="col-sm-6 mb-20">
                         <label for="others"> منصرفات اخرى</label>
-                        <input type="text" id="others" name="others"  min="0" value="0" step=".001" class="form-control fraction-commas" >
+                        <input type="text" id="others" name="others"  min="0" value="0" step=".001" class="form-control " >
                     </div>
 
                     <div class="col-12 mb-20">
