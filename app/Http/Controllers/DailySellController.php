@@ -489,8 +489,8 @@ class DailySellController extends Controller
                             $selling->user_created = session()->get('name');
                 
                             $selling->shipment_item_id =$item->id;
-                            $selling->client = $request->client;
-                            $selling->bill_number = $request->bill_number;
+                            $selling->client = $selling->shipmentItem->client;
+                            $selling->bill_number = $selling->shipmentItem->bill_number;
                             $selling->date = $selling_date;
                     
                             $selling->quantity = $request->selling_quantity[$i];
