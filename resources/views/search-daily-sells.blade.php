@@ -285,8 +285,13 @@
             <div class="modal-body">
               <form action="{{route('editDailySell')}}" method="POST">
 
-                <input type="hidden" name="daily_sell_id" value="{{$daily->id}}" id="">
                 @csrf
+                
+                <input type="hidden" name="daily_sell_id" value="{{$daily->id}}" id="">
+
+                <input type="hidden" name="client" value="{{$daily->client}}" id="">
+                <input type="hidden" name="bill_number" value="{{$daily->bill_number}}" id="">
+               
                 <div class="row">
 
                     @foreach ($daily->dailySellItmes->sortBy('product_id') as $item)
