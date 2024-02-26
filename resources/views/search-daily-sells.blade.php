@@ -15,30 +15,30 @@
             <div class="col-sm-12 mb-3 text-center">
                 <h4>ابحث بالتاريخ</h4>
             </div>
-        
+
             <div class="col-sm-5"></div>
 
             <div class="col-sm-2 mb-3 text-center">
                 <input type="date" required  name="date_from" class="form-control mb-4" id="">
-                
+
                 <input type="date" required  name="date_to" class="form-control" id="">
 
             </div>
 
             <div class="col-sm-5"></div>
-        
-        
+
+
             <div class="col-sm-12 mb-4 text-center">
                <button class="btn btn-success">بحث</button>
             </div>
 
         </form>
     </div>
-  
+
 
     @foreach ($daily_sells as $daily)
-        
-   
+
+
     <div class="col-12">
         <hr>
     </div>
@@ -62,12 +62,12 @@
 
 
                     <div class="col sm-4">
-                        
+
                         <button class="btn button-primary" data-toggle="modal" data-target="#add-to-daily-{{$daily->id}}">اضافة مبيعات لليومية </button>
 
                     </div>
 
-                   
+
                 </div>
                 <div style="overflow-x: auto">
                     <table class="table">
@@ -82,15 +82,15 @@
                                 <th> التالف</th>
                                 <th> المبيعات</th>
                                 <th> التفاصيل</th>
-                               
+
 
 
                             </tr>
                         </thead>
                         <tbody>
 
-                            
-                           
+
+
                             @foreach ($daily->dailySellItmes->sortBy('product_id')->groupBy('product_id') as $product => $item)
                                 @php
                                      $i = 0;
@@ -104,7 +104,7 @@
                                 @endphp
 
                                 @foreach ($item as $it)
-                                    
+
                                 @php
                                 $sum_quantity += $item[$i]['quantity'];
 
@@ -122,7 +122,7 @@
 
                                     <tr>
 
-                                    
+
                                         <td>{{$item[0]['shipment']->number}}</td>
                                         <td>{{$item[0]['product']->name}}</td>
                                         <td>{{$sum_quantity}}</td>
@@ -136,17 +136,17 @@
                                                 echo $desc;
 
                                             @endphp
-                                            
+
                                         </td>
 
-                                   
+
 
                                     </tr>
 
-                               
-                           
 
-                           
+
+
+
 
                             @endforeach
                         </tbody>
@@ -160,7 +160,7 @@
 
 
 
-        
+
 </div>
 
 
@@ -168,7 +168,7 @@
 
 
 @foreach ($daily_sells as $daily)
-    
+
 
 
 <div class="modal fade" id="add-to-daily-{{$daily->id}}">
@@ -185,19 +185,19 @@
                 <div class="row">
 
                     <input type="hidden" name="type" value="exist" id="">
-                    
+
                     <input type="hidden" name="id" value="{{$daily->id}}" id="">
-                   
+
                     <input type="hidden" name="client" value="{{$daily->client}}" id="">
 
 
                     <div class="col-sm-4 mb-20">
                         <label for="number"> رقم الشحنة</label>
-                       
+
                         <select class="form-control" name="ship_id[]" id="">
 
                             @foreach ($shipments->sortBy("number") as $ship)
-                                
+
                             <option value="{{$ship->id}}">{{$ship->number}}</option>
 
                             @endforeach
@@ -211,7 +211,7 @@
                             @foreach ($products->sortBy("name") as $prod)
 
                             <option value="{{$prod->id}}">{{$prod->name}}</option>
-                                
+
                             @endforeach
                         </select>
                     </div>
@@ -231,10 +231,10 @@
 
                     <div class="col-sm-4 mb-20">
                         <label for="number"> السعر</label>
-                        <input type="number" id="quantity" name="price[]" class="form-control" min="0" required step=".001" >                    
+                        <input type="number" id="quantity" name="price[]" class="form-control" min="0" required step=".001" >
                     </div>
 
-                  
+
 
                     <div class="text-center col-12">
 
@@ -254,8 +254,8 @@
                     </button>
 
                 </div>
-                   
-             
+
+
             </div>
             <div class="modal-footer">
                 <button  class="button button-danger" data-dismiss="modal">إلغاء</button>
@@ -272,7 +272,7 @@
 
 
 @foreach ($daily_sells as $daily)
-    
+
 
 
 <div class="modal fade" id="edit-daily-{{$daily->id}}">
@@ -286,33 +286,29 @@
               <form action="{{route('editDailySell')}}" method="POST">
 
                 @csrf
-                
+
                 <input type="hidden" name="daily_sell_id" value="{{$daily->id}}" id="">
 
                 <input type="hidden" name="client" value="{{$daily->client}}" id="">
                 <input type="hidden" name="bill_number" value="{{$daily->bill_number}}" id="">
-               
+
                 <div class="row">
 
                     @foreach ($daily->dailySellItmes->sortBy('product_id') as $item)
-                        
-                   
-                    
+
+
+
                     <input type="hidden" name="id[]" value="{{$item->id}}" id="">
-                   
+
 
                     <div class="col-sm-4 mb-20">
                         <label for="number"> رقم الشحنة</label>
-                       
+
                         <select class="form-control" name="ship_id[]"  id="">
 
                             <option value="{{$item->shipment->id}}">{{$item->shipment->number}}</option>
 
-                            @foreach ($shipments->sortBy("number") as $ship)
-                                
-                            <option value="{{$ship->id}}">{{$ship->number}}</option>
-
-                            @endforeach
+                         
                         </select>
                     </div>
 
@@ -323,11 +319,7 @@
 
                             <option value="{{$item->product->id}}">{{$item->product->name}}</option>
 
-                            @foreach ($products->sortBy("name") as $prod)
 
-                            <option value="{{$prod->id}}">{{$prod->name}}</option>
-                                
-                            @endforeach
                         </select>
                     </div>
 
@@ -346,14 +338,14 @@
 
                     <div class="col-sm-4 mb-20">
                         <label for="number"> السعر</label>
-                        <input type="number" id="quantity" name="price[]" value="{{$item->price}}" class="form-control" min="0" required step=".001" >                    
+                        <input type="number" id="quantity" name="price[]" value="{{$item->price}}" class="form-control" min="0" required step=".001" >
                     </div>
 
                     <div class="col-sm-4 mb-20">
                         <label > حذف</label>
                        <a href="{{route('deleteDailySell',$item->id)}}">
                            <button type="button"  class="btn btn-danger">حذف  </button>
-                        </a>                    
+                        </a>
                     </div>
 
                    <div class="text-center col-12">
@@ -364,12 +356,12 @@
 
                     @endforeach
 
-                   
+
 
 
                 </div>
-                   
-             
+
+
             </div>
             <div class="modal-footer">
                 <button  class="button button-danger" data-dismiss="modal">إلغاء</button>
