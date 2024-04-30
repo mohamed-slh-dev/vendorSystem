@@ -16,7 +16,7 @@ class CreateShipmentsTable extends Migration
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
 
-            $table->integer('number')->nullable();
+            $table->string('number')->nullable();
             $table->string('supplier')->nullable();
             $table->date('date')->nullable();
 
@@ -25,7 +25,7 @@ class CreateShipmentsTable extends Migration
 
             $table->string('user_created')->nullable();
 
-           
+
 
             $table->timestamps();
         });

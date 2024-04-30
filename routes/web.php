@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Middleware\UserSession;
+
 use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
@@ -24,6 +26,8 @@ Route::get('/', [UserController::class, 'login'])->name('login');
 Route::post('/check-login', [UserController::class, 'checkLogin'])->name('checkLogin');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
+
+Route::middleware([UserSession::class])->group(function () {
 
 //users
 Route::get('/users', [UserController::class, 'users'])->name('users');
@@ -100,3 +104,5 @@ Route::get('/search-daily/{date_from}/{date_to}', [DailySellController::class, '
 
 Route::get('/daily-shorts', [DailySellController::class, 'dailyShorts'])->name('dailyShorts');
 Route::post('/add-daily-short', [DailySellController::class, 'addDailyShort'])->name('addDailyShort');
+
+});

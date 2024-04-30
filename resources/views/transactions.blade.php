@@ -8,7 +8,7 @@
 <div class="row">
 
 
-    
+
      <!-- Top Report Start -->
      <div class="col-xlg-4 col-md-12 col-12 mb-30">
         <div class="top-report">
@@ -65,7 +65,7 @@
 
 
 
-    
+
      <!-- Top Report Start -->
      <div class="col-xlg-4 col-md-6 col-12 mb-30">
         <div class="top-report">
@@ -93,14 +93,14 @@
     </div><!-- Top Report End -->
 
 
-    
+
 
     <div class="col-12">
 
         <button class="button button-primary" data-toggle="modal" data-target="#exampleModal1">اضافة عميل جديد </button>
     </div>
 
-  
+
 
     <div class="col-12">
         <hr>
@@ -118,11 +118,11 @@
                 @foreach ($clients as $client)
                 <div style="overflow-x: auto">
                     <table class="table mb-4">
-                        
+
                         <tbody>
 
-                           
-                          
+
+
                             <tr >
 
                                 <td style="width: 10%">
@@ -148,22 +148,22 @@
 
                                     <a href="{{route('printClient', $client->id)}}">
                                         <button class="btn btn-dark">كشف الحساب</button>
-                                    </a> 
+                                    </a>
 
                                 </td>
-                               
+
 
                                 <td style="width: 10%">
                                     <h3>  ({{$client->transactions->count()}})</h3>
-                                  
+
                                 </td>
                                 <td style="width: 25%">
                                     <h3> {{$client->name}}</h3>
-                                   
+
                                 </td>
                                 <td style="width: 10%">
                                     <h3> {{$client->type}}</h3>
-                                   
+
                                 </td>
                                 <td style="width: 15%">
                                     <h3>  {{ number_format($client->total , 2, '.', ',')}}</h3>
@@ -171,23 +171,27 @@
                                 <td>
                                     @if ($client->total > 0 )
                                     <i style="font-weight: bold; font-size:18px;" class="text-center text-success fa fa-arrow-up"></i>
-                                    @else
+                                    @elseif($client->total < 0)
                                     <i style="font-weight: bold; font-size:18px;" class="text-center text-danger fa fa-arrow-down"></i>
+                                    @else
+
+                                    <i style="font-weight: bold; font-size:18px;" class="text-center text-primary fa fa-dash"></i>
+
                                     @endif
                                 </td>
 
-                              
-                              
+
+
                             </tr>
-        
-                           
+
+
                         </tbody>
                     </table>
 
 
                     <div class="collapse" id="collapseExample-{{$client->id}}">
 
-                   
+
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -198,36 +202,62 @@
                                 <th>المبلغ</th>
                                 <th>الرصيد</th>
 
-                                {{-- <th>تعديل</th> --}}
+                                <th>تعديل</th>
 
                             </tr>
                         </thead>
-                        
+
                         <tbody>
 
+                        {{-- adding the total dynamically --}}
+                            @php
+
+                                $dynamic_total = 0;
+
+                            @endphp
+
+
                            @foreach ($client->transactions as $trans)
-                               
-                         
+
+                          @if ($trans->type == 'له')
+
+                          @php
+
+                              $dynamic_total -= $trans->price;
+
+                          @endphp
+
+
+                          @else
+
+                          @php
+
+                            $dynamic_total += $trans->price;
+
+                          @endphp
+
+                          @endif
+
                             <tr >
-                                <td style="width: 25%">
+                                <td style="width: 20%">
                                     <h4>{{$trans->date}}</h4>
-                                  
+
                                 </td>
 
-                               
+
 
                                 <td style="width: 25%">
                                     <h4>{{$trans->desc}}</h4>
                                 </td>
 
-                              
+
 
 
                                 <td style="width: 5%">
 
                                     <span class="ml-3" style="font-size: 18px; font-weight : bold;"> {{$trans->type}}</span>
 
-                                   
+
                                 </td>
 
                                 <td style="width: 15%">
@@ -241,32 +271,32 @@
                                 </td>
 
 
-                                <td style="width: 25%">
+                                <td style="width: 10%">
                                     <h4>
-                                        {{ number_format($trans->price , 2, '.', ',')}} 
+                                        {{ number_format($trans->price , 2, '.', ',')}}
                                     </h4>
 
                                 </td>
 
-                                <td style="width: 25%">
+                                <td style="width: 10%">
                                     <h4>
-                                         {{ number_format($trans->total , 2, '.', ',')}} 
+                                         {{ number_format($dynamic_total , 2, '.', ',')}}
                                     </h4>
 
                                 </td>
 
-                                {{-- <td>
+                                <td style="width: 15%;">
 
                                     <button class="btn btn-info" data-toggle="modal" data-target="#update-trans-{{$trans->id}}" > تعديل المعاملة المالية </button>
 
-                                </td> --}}
-                               
-                              
+                                </td>
+
+
                             </tr>
-        
+
                             @endforeach
-                          
-                           
+
+
                         </tbody>
                     </table>
                 </div>
@@ -337,7 +367,7 @@
 
                     <div class="col-sm-6 mb-20 text-center">
                         <label class="radio-inline">
-                            <input type="radio" name="trans_type" value="عليه" checked> 
+                            <input type="radio" name="trans_type" value="عليه" checked>
                             <span style="font-size: 22px;font-weight: bold;" class="text-danger">عليه</span>
                           </label>
                     </div>
@@ -345,8 +375,8 @@
 
                     <div class="col-sm-6 mb-20 text-center">
                         <label class="radio-inline">
-                            <input type="radio" value="له" name="trans_type"> 
-                            <span style="font-size: 22px;font-weight: bold;" class="text-success">له</span>  
+                            <input type="radio" value="له" name="trans_type">
+                            <span style="font-size: 22px;font-weight: bold;" class="text-success">له</span>
                           </label>
                     </div>
 
@@ -355,7 +385,7 @@
 
 
                 </div>
-             
+
             </div>
             <div class="modal-footer">
                 <button  class="button button-danger" data-dismiss="modal">إلغاء</button>
@@ -380,7 +410,7 @@
 
                 @csrf
                 <div class="row">
-                   
+
                     <input type="hidden" name="id" value="" id="modal-assign-id">
 
                     <div class="col-sm-4 mb-20">
@@ -388,7 +418,7 @@
                         <input type="date" required id="date" name="date" class="form-control" >
                     </div>
 
-                  
+
 
                     <div class="col-sm-4 mb-20">
                         <label for="price"> المبلغ</label>
@@ -403,7 +433,7 @@
 
                     <div class="col-sm-6 mb-20 text-center">
                         <label class="radio-inline">
-                            <input type="radio" name="trans_type" value="عليه" checked> 
+                            <input type="radio" name="trans_type" value="عليه" checked>
                             <span style="font-size: 22px;font-weight: bold;" class="text-danger">عليه</span>
                           </label>
                     </div>
@@ -411,13 +441,13 @@
 
                     <div class="col-sm-6 mb-20 text-center">
                         <label class="radio-inline">
-                            <input type="radio" value="له" name="trans_type"> 
-                            <span style="font-size: 22px;font-weight: bold;" class="text-success">له</span>  
+                            <input type="radio" value="له" name="trans_type">
+                            <span style="font-size: 22px;font-weight: bold;" class="text-success">له</span>
                           </label>
                     </div>
 
                 </div>
-             
+
             </div>
             <div class="modal-footer">
                 <button  class="button button-danger" data-dismiss="modal">إلغاء</button>
@@ -429,7 +459,7 @@
 </div>
 
  @foreach ($clients as $client)
-    
+
 <div class="modal fade" id="update-client-{{$client->id}}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -468,7 +498,7 @@
                     </div>
 
                 </div>
-             
+
             </div>
             <div class="modal-footer">
                 <button  class="button button-danger" data-dismiss="modal">إلغاء</button>
@@ -479,12 +509,12 @@
     </div>
 </div>
 
-@endforeach 
+@endforeach
 
 
 
 @foreach ($transactions as $trans)
-    
+
 <div class="modal fade" id="update-trans-{{$trans->id}}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -519,7 +549,7 @@
                             @if ($trans->type == 'عليه')
                                 checked
                             @endif
-                            type="radio" name="trans_type" value="عليه" > 
+                            type="radio" name="trans_type" value="عليه" >
                             <span style="font-size: 22px;font-weight: bold;" class="text-danger">عليه</span>
                           </label>
                     </div>
@@ -531,16 +561,16 @@
                             @if ($trans->type == 'له')
                             checked
                             @endif
-                         type="radio" value="له" name="trans_type"> 
-                            <span style="font-size: 22px;font-weight: bold;" class="text-success">له</span>  
+                         type="radio" value="له" name="trans_type">
+                            <span style="font-size: 22px;font-weight: bold;" class="text-success">له</span>
                           </label>
                     </div>
 
 
-                   
+
 
                 </div>
-             
+
             </div>
             <div class="modal-footer">
                 <button  class="button button-danger" data-dismiss="modal">إلغاء</button>
@@ -551,11 +581,11 @@
     </div>
 </div>
 
-@endforeach 
+@endforeach
 
 
 @section('scripts')
-    
+
     <script>
 
         $('.client-id').click(function() {

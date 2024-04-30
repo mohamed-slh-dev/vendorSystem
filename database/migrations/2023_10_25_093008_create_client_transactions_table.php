@@ -21,8 +21,6 @@ class CreateClientTransactionsTable extends Migration
 
             $table->double('price', 15 , 2)->nullable();
 
-            $table->double('total', 15 , 2)->nullable();
-
             $table->string('desc')->nullable();
 
             $table->date('date')->nullable();

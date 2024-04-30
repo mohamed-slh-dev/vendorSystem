@@ -40,7 +40,7 @@ class TransactionController extends Controller
 
         $trans->client_id = $client->id;
 
-        $price = preg_replace('/[,]/', '', $request->price); 
+        $price = preg_replace('/[,]/', '', $request->price);
         $price = (int)$price;
 
         $trans->price = $price;
@@ -69,7 +69,7 @@ class TransactionController extends Controller
 
         return redirect()->back()->with('success', 'تم إضافة عميل جديد بنجاح');
 
-        
+
 
     }
 
@@ -98,7 +98,7 @@ class TransactionController extends Controller
         $trans->client_id = $request->id;
 
 
-        $price = preg_replace('/[,]/', '', $request->price); 
+        $price = preg_replace('/[,]/', '', $request->price);
         $price = (int)$price;
 
         $trans->price = $price;
@@ -124,11 +124,11 @@ class TransactionController extends Controller
 
         $client->save();
 
-       
+
 
         return redirect()->back()->with('success', 'تم إضافة معاملة مالية جديدة بنجاح');
 
-        
+
 
     }
 
@@ -151,15 +151,13 @@ class TransactionController extends Controller
 
         $client->total = $outcome - $income;
 
-        $trans->total =  $client->total;
-
         $trans->save();
 
         $client->save();
 
         return redirect()->back()->with('success', 'تم تحديث معاملة مالية بنجاح');
 
-        
+
 
     }
 

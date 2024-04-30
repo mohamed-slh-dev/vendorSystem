@@ -14,7 +14,7 @@
             <div class="col-sm-12 mb-3 text-center">
                 <h4>ابحث برقم الإرسالية</h4>
             </div>
-        
+
             <div class="col-sm-5"></div>
 
             <div class="col-sm-2 mb-3 text-center">
@@ -22,15 +22,15 @@
             </div>
 
             <div class="col-sm-5"></div>
-        
-        
+
+
             <div class="col-sm-12 mb-4 text-center">
                <button class="btn btn-success">بحث</button>
             </div>
 
         </form>
     </div>
-   
+
 
     <div class="col-12">
 
@@ -38,10 +38,10 @@
 
     </div>
 
- 
+
 
     @foreach ($shipments as $ship)
-        
+
     <div class="col-12">
         <hr>
     </div>
@@ -51,7 +51,9 @@
             <div class="box">
                 <div class="box-head row">
                     <div class="col-sm-12 mt-4">
-                        <h4 class="title"> شحنة رقم {{$ship->number}}</h4>
+                        <h4 class="title"> شحنة رقم
+                            <p class="">{{$ship->number}}</p>
+                        </h4>
 
                     </div>
 
@@ -77,8 +79,8 @@
                     </div>
 
 
-                   
-                   
+
+
                 </div>
                 <div style="overflow-x: auto">
                     <table class="table table-hover my-0">
@@ -124,16 +126,16 @@
                         <tbody>
 
                             @php
-                                
+
                                 $sum_value = 0;
                                 $sum_price_sar = 0;
                                 $sum_value_sar = 0;
                                 $sum_sell = 0;
-                               
-                            @endphp     
-                          
 
-                         
+                            @endphp
+
+
+
 
                            @foreach ($ship->shipmentItmes as $item)
                             @php
@@ -141,9 +143,9 @@
                                  $sum_value += $item->invoice_total;
                                  $sum_price_sar += $item->invoice_price_sa;
                                  $sum_value_sar += $item->invoice_total_sa;
-                                 
-                                        
-                                        
+
+
+
 
 
                             @endphp
@@ -151,7 +153,7 @@
                                  {{-- shipment rows --}}
 
                                     <tr>
-                                    
+
                                         <td>{{$ship->user_created}}</td>
 
                                         <td>
@@ -170,39 +172,39 @@
                                             <button
                                             @if ($item->remaining_quantity <=  0 )
                                                 disabled
-                                            @endif 
+                                            @endif
                                             class="btn btn-success selling-assign-id" data-toggle="modal" data-target="#add-selling" value="{{ $item->id }}" >اضافة مبيعات</button>
-                                        </td> 
+                                        </td>
 
 
-                                    <td>{{$ship->number}}</td> 
-                                    <td>{{$ship->supplier}}</td> 
-                                    <td>{{$ship->date}}</td> 
-                                    <td>{{$item->product->name}}</td> 
-                                    <td 
+                                    <td>{{$ship->number}}</td>
+                                    <td>{{$ship->supplier}}</td>
+                                    <td>{{$ship->date}}</td>
+                                    <td>{{$item->product->name}}</td>
+                                    <td
                                         @if ($item->remaining_quantity <=  0 )
                                         style= "background-color : #3bff3b;"
-                                        @endif 
+                                        @endif
                                         >{{$item->quantity}}
-                                    </td> 
-                                    <td>{{$item->remaining_quantity}}</td> 
+                                    </td>
+                                    <td>{{$item->remaining_quantity}}</td>
 
-                                    <td>{{ number_format($item->invoice_price , 3, '.', ',')}}</td> 
+                                    <td>{{ number_format($item->invoice_price , 3, '.', ',')}}</td>
 
                                     <td style="background: #e9907a; color: black">
                                         {{ number_format($item->invoice_total , 3, '.', ',') }}
-                                    </td> 
+                                    </td>
                                     <td style="background: #e9907a; color: black">
                                         {{ number_format($item->invoice_price_sa , 3, '.', ',') }}
-                                    </td> 
+                                    </td>
                                     <td style="background: #e9907a; color: black">
                                         {{ number_format($item->invoice_total_sa , 3, '.', ',') }}
-                                    </td> 
+                                    </td>
                                     <td style="background: #e9907a; color: black">
                                         {{ number_format($item->total , 3, '.', ',') }}
-                                    </td> 
+                                    </td>
 
-                                    
+
                                    <td></td>
                                    <td></td>
                                    <td></td>
@@ -213,14 +215,14 @@
                                    <td></td>
                                    <td></td>
 
-                                    
+
                                     </tr>
 
-                                   
+
 
                                     @php
-                                       
-                                        $sum_selling_quantity = 0; 
+
+                                        $sum_selling_quantity = 0;
 
                                     @endphp
                                 @foreach ($item->itemSells as $sell)
@@ -235,36 +237,36 @@
                                         <td>{{$sell->user_created}}</td>
 
                                         <td></td>
-                                        <td> </td> 
+                                        <td> </td>
 
                                         <td></td>
-                                    <td>{{$ship->number}}</td> 
-                                    <td>{{$ship->supplier}}</td> 
-                                    <td>{{$sell->date}}</td> 
-                                    <td>{{$item->product->name}}</td> 
-                                   
-                                    <td></td> 
-                                    <td></td> 
+                                    <td>{{$ship->number}}</td>
+                                    <td>{{$ship->supplier}}</td>
+                                    <td>{{$sell->date}}</td>
+                                    <td>{{$item->product->name}}</td>
+
+                                    <td></td>
+                                    <td></td>
 
 
-                                    <td></td> 
-                                   
+                                    <td></td>
+
 
                                     <td style="background: #e9907a; color: black">
-                                        
-                                    </td> 
-                                    <td style="background: #e9907a; color: black">
-                                       
-                                    </td> 
-                                    <td style="background: #e9907a; color: black">
-                                       
-                                    </td> 
-                                    <td style="background: #e9907a; color: black">
-                                      
-                                    </td> 
 
-                                    <td style="background: #fdfd62;"> 
-                                    {{ date("Y-m-d H:i:s", strtotime($sell->updated_at ." +3 hours")) }} 
+                                    </td>
+                                    <td style="background: #e9907a; color: black">
+
+                                    </td>
+                                    <td style="background: #e9907a; color: black">
+
+                                    </td>
+                                    <td style="background: #e9907a; color: black">
+
+                                    </td>
+
+                                    <td style="background: #fdfd62;">
+                                    {{ date("Y-m-d H:i:s", strtotime($sell->updated_at ." +3 hours")) }}
                                     </td>
 
 
@@ -288,22 +290,22 @@
                                     <td style="background: #fdfd62;">{{ number_format($sell->selling , 3, '.', ',')}}</td>
 
                                     <td style="background: #fdfd62;"> {{ number_format( $sum_sell - $item->total , 3, '.', ',')}} </td>
-                                    
+
                                     <td style="background: #fdfd62;">{{$sell->bill_number}}</td>
-                                    
+
                                     </tr>
                                 @endforeach
-  
+
                             @endforeach
 
                             {{-- total bill row --}}
                             <tr style="background-color: #fdfd62">
                                 <td></td>
-                                
+
 
                                 <td style="font-weight: bold">إجمالي الفاتورة</td>
                                 <td></td>
-                               
+
 
                                 <td></td>
                                 <td></td>
@@ -332,7 +334,7 @@
                                     @php
 
                                     echo number_format($sum_value_sar , 3, '.', ',')
-                                        
+
                                     @endphp
                                 </td>
 
@@ -346,9 +348,9 @@
                                 <td></td>
                                 <td></td>
                                 <td style="font-weight: bold">
-                                    
+
                                     @php
-                                   
+
                                     echo number_format($sum_sell , 3, '.', ',');
 
                                    @endphp
@@ -357,13 +359,13 @@
                                     @php
                                      echo number_format($sum_sell - $sum_value_sar   , 3, '.', ',')
                                     @endphp
-                                   
+
                                 </td>
                                 <td></td>
-                               
+
                             </tr>
 
-                         
+
                             @php
                                  $sum_exp = 0;
                                  $sum_others = 0;
@@ -373,7 +375,7 @@
                             @endphp
 
                             @foreach ($ship->otherTransactions as $exp)
-                                
+
                                 @php
                                     $sum_exp += $exp->customs_price;
                                     $sum_others += $exp->others_price;
@@ -477,7 +479,7 @@
                             </tr>
 
                             @endforeach
-                            
+
                          {{-- total shipment final number  --}}
 
                             <tr>
@@ -501,7 +503,7 @@
                                     @php
                                         echo number_format($sum_value_sar + $sum_exp + $sum_others + $sum_delivery + $sum_jordan , 3, '.', ',');
                                     @endphp
-                                   
+
                                 </td>
 
                                 <td></td>
@@ -513,15 +515,15 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                               
+
 
                                 <td style="font-weight: bold">
                                     @php
-                                        
+
                                         echo number_format( $sum_sell  - ($sum_value_sar + $sum_exp + $sum_others + $sum_delivery + $sum_jordan) , 3, '.', ',');
 
                                     @endphp
-                                  
+
 
                                 </td>
 
@@ -535,17 +537,17 @@
         <!--Table Head Dark End-->
 
     @endforeach
-   
 
-  
+
+
     @if($shipments instanceof \Illuminate\Pagination\LengthAwarePaginator )
 
     <div class="m-4">
 
         {{$shipments->links()}}
-     
+
     </div>
-    
+
     @endif
 
 </div>
@@ -586,14 +588,14 @@
                     <div class="text-center col-12">
                     <hr style="width: 99%">
                     </div>
-                   
+
                     <div class="col-sm-3 mb-20">
                         <label for="name"> البيان</label>
                         <select class="form-control" name="b_name[]" id="">
                             @foreach ($products as $prod)
 
                             <option value="{{$prod->id}}">{{$prod->name}}</option>
-                                
+
                             @endforeach
                         </select>
                     </div>
@@ -619,7 +621,7 @@
 
                     </div>
 
-                    
+
 
                   </div>
 
@@ -637,7 +639,7 @@
                     </button>
 
                 </div>
-                   
+
 
             </div>
             <div class="modal-footer">
@@ -652,7 +654,7 @@
 
 
 @foreach ($shipments as $ship)
-    
+
 <div class="modal fade" id="update-shipment-{{$ship->id}}" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -671,7 +673,7 @@
                 <div class="row">
                     <div class="col-sm-4 mb-20">
                         <label for="number"> الرقم</label>
-                        <input type="number" required id="number" min="0" value="{{$ship->number}}" name="number" class="form-control" >
+                        <input type="text" required id="number" min="0" value="{{$ship->number}}" name="number" class="form-control" >
                     </div>
 
                     <div class="col-sm-4 mb-20">
@@ -685,7 +687,7 @@
                         <input type="date" id="date" required name="date" value="{{$ship->date}}" class="form-control" >
                     </div>
 
-                 
+
 
                 </div>
 
@@ -706,7 +708,7 @@
 
 
 @foreach ($shipments as $ship)
-    
+
 <div class="modal fade" id="add-product-shipment-{{$ship->id}}" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -724,7 +726,7 @@
                 <input type="hidden" name="id" value="{{$ship->id}}" id="">
 
                 <div class="row">
-                   
+
 
                     <div class="col-sm-3 mb-20">
                         <label for="name"> البيان</label>
@@ -732,7 +734,7 @@
                             @foreach ($products as $prod)
 
                             <option value="{{$prod->id}}">{{$prod->name}}</option>
-                                
+
                             @endforeach
                         </select>
                     </div>
@@ -761,7 +763,7 @@
 
                   <div id="newinput2" class="col-12 row mr-2"></div>
 
-                 
+
                   <div class="col-12 text-center">
 
                     <button id="rowAdder2" type="button" class="btn btn-dark">
@@ -789,7 +791,7 @@
 
 
 
-    
+
 <div class="modal fade" id="delete-shipment" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -807,9 +809,9 @@
                 <input type="hidden" name="id" value="" id="delete-shipment-id">
 
                 <div class="row">
-                   
+
                     <h4 class="mr-4">هل انت متأكد من حذف هذه الإرسالية؟</h4>
-                  
+
 
                 </div>
 
@@ -825,7 +827,7 @@
 </div>
 
 
- 
+
 <div class="modal fade" id="delete-item" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -843,9 +845,9 @@
                 <input type="hidden" name="id" value="" id="delete-item-id">
 
                 <div class="row">
-                   
+
                     <h4 class="mr-4">هل انت متأكد من حذف هذا البيان؟</h4>
-                  
+
 
                 </div>
 
@@ -863,7 +865,7 @@
 
 
 @foreach ($sells as $sell)
-    
+
 <div class="modal fade" id="update-sell-{{$sell->id}}" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -880,7 +882,7 @@
 
                 <input type="hidden" name="id" value="{{$sell->id}}" id="">
                 <div class="row">
-                   
+
                     <div class="col-sm-4 mb-20">
                         <label for="client"> العميل</label>
                         <input type="text" required id="client" name="client" value="{{$sell->client}}" class="form-control" >
@@ -905,7 +907,7 @@
 
                     <div class="col-sm-4 mb-20">
                         <label for="number"> السعر</label>
-                        <input type="number" id="quantity" name="price" required class="form-control" value="{{$sell->price}}" min="0"  step=".001" >                    
+                        <input type="number" id="quantity" name="price" required class="form-control" value="{{$sell->price}}" min="0"  step=".001" >
                     </div>
 
 
@@ -913,7 +915,7 @@
                         <label for="bill"> رقم الفاتورة</label>
                         <input type="text" id="bill" name="bill" value="{{$sell->bill_number}}" class="form-control" >
                     </div>
-                    
+
 
                 </div>
 
@@ -933,7 +935,7 @@
 
 
 
-    
+
 <div class="modal fade" id="delete-sell" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -951,9 +953,9 @@
                 <input type="hidden" name="id" value="" id="delete-sell-id">
 
                 <div class="row">
-                   
+
                     <h4 class="mr-4">هل انت متأكد من حذف هذه المبيعات؟</h4>
-                  
+
 
                 </div>
 
@@ -971,7 +973,7 @@
 
 
 @foreach ($items as $item)
-    
+
 <div class="modal fade" id="update-item-{{$item->id}}" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -988,7 +990,7 @@
 
                 <input type="hidden" name="id" value="{{$item->id}}" id="">
                 <div class="row">
-                  
+
                     <div class="col-sm-4 mb-20">
                         <label for="name"> البيان</label>
                         <select class="form-control" name="name" id="">
@@ -998,7 +1000,7 @@
                             @foreach ($products as $prod)
 
                             <option value="{{$prod->id}}">{{$prod->name}}</option>
-                                
+
                             @endforeach
                         </select>
                     </div>
@@ -1052,7 +1054,7 @@
 
                 @csrf
                 <div class="row">
-                   
+
                     <div class="col-sm-4 mb-20">
                         <label for="client"> العميل</label>
                         <input type="text" required id="client" name="client" class="form-control" >
@@ -1078,7 +1080,7 @@
 
                     <div class="col-sm-4 mb-20">
                         <label for="number"> السعر</label>
-                        <input type="number" id="quantity" name="price" required class="form-control" min="0"  step=".001" >                    
+                        <input type="number" id="quantity" name="price" required class="form-control" min="0"  step=".001" >
                     </div>
 
 
@@ -1086,9 +1088,9 @@
                         <label for="bill"> رقم الفاتورة</label>
                         <input type="text" id="bill" name="bill" class="form-control" >
                     </div>
-                    
 
-                  </div>     
+
+                  </div>
 
             </div>
             <div class="modal-footer">
@@ -1121,7 +1123,7 @@
 
                 @csrf
                 <div class="row">
-                   
+
                     <div class="col-sm-6 mb-20">
                         <label for="customs">التخليص</label>
                         <input type="text"  id="customs" name="customs"  min="0" value="0" step=".001" class="form-control " >
@@ -1132,12 +1134,12 @@
                         <input type="text"  id="customs" name="delivery"  min="0" value="0" step=".001" class="form-control " >
                     </div>
 
-                   
+
                     <div class="col-sm-6 mb-20">
                         <label for="others"> منصرفات الأردن</label>
                         <input type="text" id="others" name="jordan"  min="0" value="0" step=".001" class="form-control " >
                     </div>
-                    
+
 
                     <div class="col-sm-6 mb-20">
                         <label for="others"> منصرفات اخرى</label>
@@ -1149,10 +1151,10 @@
                         <input type="text" id="desc" class="form-control" name="desc">
                     </div>
 
-                  
-                    
 
-                  </div>     
+
+
+                  </div>
 
             </div>
             <div class="modal-footer">
@@ -1247,5 +1249,5 @@
 
 
 </script>
-    
+
 @endsection

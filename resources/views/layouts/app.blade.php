@@ -1,8 +1,3 @@
-@if (empty(session('name')))
-    <script>
-        window.location.href = '/'; //login route
-    </script>
-@endif
 
 <!doctype html>
 <html class="no-js" lang="en">
