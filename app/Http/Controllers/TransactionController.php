@@ -61,7 +61,6 @@ class TransactionController extends Controller
 
         }
 
-        $trans->total =  $client->total;
 
         $client->save();
 
@@ -118,7 +117,6 @@ class TransactionController extends Controller
 
         }
 
-        $trans->total =  $client->total;
 
         $trans->save();
 
