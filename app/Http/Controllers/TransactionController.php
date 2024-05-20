@@ -13,7 +13,7 @@ class TransactionController extends Controller
 
     public function transactions (){
 
-        $clients = CLient::all();
+        $clients = Client::all();
 
         $transactions = ClientTransaction::all();
 
