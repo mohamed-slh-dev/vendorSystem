@@ -159,6 +159,14 @@ class TransactionController extends Controller
 
     }
 
+    public function deleteTransaction(Request $request){
+
+        ClientTransaction::find($request->id)->delete();
+
+        return redirect()->back()->with('success', 'تم حذف المعاملة بنجاح');
+
+    }
+
 
     public function printClient ($id){
 

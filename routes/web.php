@@ -91,6 +91,7 @@ Route::get('/print-client/{id}', [TransactionController::class, 'printClient'])-
 
 Route::post('/add-transaction', [TransactionController::class, 'addTransaction'])->name('addTransaction');
 Route::post('/update-transaction', [TransactionController::class, 'updateTransaction'])->name('updateTransaction');
+Route::post('/delete-transaction', [TransactionController::class, 'deleteTransaction'])->name('deleteTransaction');
 
 
 //daily sells
