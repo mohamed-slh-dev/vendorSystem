@@ -126,7 +126,7 @@
                                        $dynamic_total = 0;
                                    @endphp
 
-                                @foreach ($client->transactions as $trans)
+                                @foreach ($client->transactions->sortBy('date') as $trans)
 
                                 @if ($trans->type == 'عليه')
 

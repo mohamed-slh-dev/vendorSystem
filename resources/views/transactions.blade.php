@@ -217,7 +217,7 @@
                             @endphp
 
 
-                           @foreach ($client->transactions as $trans)
+                           @foreach ($client->transactions->sortBy('date') as $trans)
 
                           @if ($trans->type == 'له')
 
