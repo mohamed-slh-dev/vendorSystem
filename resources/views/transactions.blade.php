@@ -174,18 +174,15 @@
 
                                         </td>
                                         <td style="width: 15%">
-                                            <h3> {{ number_format($client->total, 2, '.', ',') }}</h3>
+                                            <h3> {{ number_format(($client->transactions->where('type', 'عليه')->sum('price') - $client->transactions->where('type', 'له')->sum('price') ), 2, '.', ',') }}</h3>
                                         </td>
                                         <td>
-                                            @if ($client->total > 0)
+                                            @if ($client->transactions->where('type', 'عليه')->sum('price') - $client->transactions->where('type', 'له')->sum('price') < 0)
                                                 <i style="font-weight: bold; font-size:18px;"
                                                     class="text-center text-success fa fa-arrow-up"></i>
-                                            @elseif($client->total < 0)
+                                            @elseif($client->transactions->where('type', 'عليه')->sum('price') - $client->transactions->where('type', 'له')->sum('price') > 0)
                                                 <i style="font-weight: bold; font-size:18px;"
                                                     class="text-center text-danger fa fa-arrow-down"></i>
-                                            @else
-                                                <i style="font-weight: bold; font-size:18px;"
-                                                    class="text-center text-primary fa fa-dash"></i>
                                             @endif
                                         </td>
 

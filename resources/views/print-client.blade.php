@@ -233,7 +233,7 @@
 
                                              <td style="font-weight : bold">
                                                 <h4>
-                                                    {{ number_format($client->total , 2, '.', ',')}}
+                                                    {{ number_format($sum_outcome - $sum_income , 2, '.', ',')}}
 
                                                 </h4>
                                              </td>
