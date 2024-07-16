@@ -9,6 +9,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\DailySellController;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ShipmentsExport;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,14 @@ Route::get('/', [UserController::class, 'login'])->name('login');
 Route::post('/check-login', [UserController::class, 'checkLogin'])->name('checkLogin');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
+Route::get('/export-shipments', [ShipmentController::class, 'exportShipments'])->name('exportShipments');
+
+Route::get('/export', function(){
+
+    return Excel::download(new ShipmentsExport, 'shipments.xlsx');
+
+} );
+
 
 Route::middleware([UserSession::class])->group(function () {
 
@@ -36,6 +46,7 @@ Route::post('/update-user', [UserController::class, 'updateUser'])->name('update
 
 //dashboard
 Route::get('/dashboard', [ShipmentController::class, 'dashboard'])->name('dashboard');
+
 
 //shipments
 Route::get('/shipments', [ShipmentController::class, 'shipments'])->name('shipments');

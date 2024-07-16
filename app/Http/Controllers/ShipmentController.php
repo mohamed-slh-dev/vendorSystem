@@ -559,4 +559,13 @@ class ShipmentController extends Controller
 
         return redirect()->back()->with('success', 'تم تعديل سعر الريال مقابل الدينار بنجاح');
     }
+
+
+
+    public function exportShipments(){
+
+        $shipments = Shipment::all();
+
+        return view('excel-page', compact('shipments'));
+    }
 }
