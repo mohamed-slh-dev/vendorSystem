@@ -28,13 +28,13 @@ Route::get('/', [UserController::class, 'login'])->name('login');
 Route::post('/check-login', [UserController::class, 'checkLogin'])->name('checkLogin');
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
-Route::get('/export-shipments', [ShipmentController::class, 'exportShipments'])->name('exportShipments');
+// Route::get('/export-shipments', [ShipmentController::class, 'exportShipments'])->name('exportShipments');
 
-Route::get('/export', function(){
+// Route::get('/export', function(){
 
-    return Excel::download(new ShipmentsExport, 'shipments.xlsx');
+//     return Excel::download(new ShipmentsExport, 'shipments.xlsx');
 
-} );
+// } );
 
 
 Route::middleware([UserSession::class])->group(function () {
