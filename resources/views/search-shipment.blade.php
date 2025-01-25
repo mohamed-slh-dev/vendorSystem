@@ -18,7 +18,7 @@
             <div class="col-sm-5"></div>
 
             <div class="col-sm-2 mb-3 text-center">
-                <input type="number"  name="number" class="form-control" id="">
+                <input required type="number"  name="number" class="form-control" id="">
             </div>
 
             <div class="col-sm-5"></div>

@@ -96,7 +96,7 @@ class ShipmentController extends Controller
 
     public function shipments()
     {
-        $shipments = Shipment::Paginate(10);
+        $shipments = Shipment::orderBy('id', 'desc')->Paginate(10);
 
         $shipments_ids = [];
 
@@ -128,7 +128,7 @@ class ShipmentController extends Controller
 
     public function searchShipment($number)
     {
-        $shipments = Shipment::where('number', 'like', "%{$number}%")->get();
+        $shipments = Shipment::where('number', 'like', "%{$number}%")->orderBy('id', 'desc')->get();
 
         if (empty($shipments)) {
             return redirect()->back()->with('warning', 'لا توجد إرسالية بهذا الرقم');
